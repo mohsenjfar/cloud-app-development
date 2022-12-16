@@ -12,25 +12,53 @@
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
     <script
         src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js">
-    </script>
+        </script>
 </head>
 
 <body>
-    <nav class="navbar navbar-light bg-light"> 
+    <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand text-secondary" href="{% url 'djangoapp:index' %}">Best Car Dealership</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
                 <li>
-                    <a class="btn btn-link" href="{% url 'djangoapp:about' %}">About</a>
-                    <a class="btn btn-link" href="{% url 'djangoapp:contact' %}">Contact</a>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                 </li>
+                {% else %}
+                <li>
+                    <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username">
+                            <input type="password" class="form-control" placeholder="Username" name="psw">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
 
     <!--Add a dealer table here -->
+
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-muted">© 2021 Company, Inc</p>
+
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item">
+                <a href="{% url 'djangoapp:about' %}" class="nav-link px-2 text-muted">About</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'djangoapp:contact' %}" class="nav-link px-2 text-muted">Contact</a>
+            </li>
+        </ul>
+    </footer>
 
 </body>
 
