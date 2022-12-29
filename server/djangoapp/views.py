@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import related models
+# from .models import related models
 from .restapis import get_dealers_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
@@ -66,15 +66,13 @@ def login_request(request):
     else:
         return render(request, 'djangoapp/user_login.html', context)
 
-
 def logout_request(request):
     logout(request)
     return redirect('djangoapp:index')
-    
 
 def get_dealerships(request):    
     if request.method == "GET":        
-        url = "your-cloud-function-domain/dealerships/dealer-get"        
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealership-sequence.json"
         # Get dealers from the URL        
         dealerships = get_dealers_from_cf(url)        
         # Concat all dealer's short name        

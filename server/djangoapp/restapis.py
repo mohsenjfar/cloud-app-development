@@ -8,8 +8,7 @@ def get_request(url, **kwargs):
     print(f"GET from {url} ")
     try:  
         # Call get method of requests library with URL and parameters        
-        response = requests.get(url, headers={'Content-Type': 'application/json'},                                    
-        params=kwargs)    
+        response = requests.get(url, headers={'Content-Type': 'application/json'},params=kwargs)
     except:
         # If any error occurs
         print("Network exception occurred") 
@@ -48,6 +47,7 @@ def get_dealers_from_cf(url, **kwargs):
                                    id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], 
                                    short_name=dealer_doc["short_name"], st=dealer_doc["st"], zip=dealer_doc["zip"])
             results.append(dealer_obj)
+        print(results)
         return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
