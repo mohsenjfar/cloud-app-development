@@ -68,7 +68,7 @@ class CarDealer:
 
 class DealerView:
 
-    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchasedate, review):
+    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchase_date, review):
 
         self.car_make = car_make
         self.car_model = car_model
