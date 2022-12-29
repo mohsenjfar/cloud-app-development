@@ -3,15 +3,15 @@ import json
 from .models import CarDealer, DealerView
 from requests.auth import HTTPBasicAuth
 
-def get_request(url, **kwargs):    
-    print(kwargs)    
+def get_request(url, **params):    
+    print(params)    
     print(f"GET from {url} ")
-    try:  
+    # try:  
         # Call get method of requests library with URL and parameters        
-        response = requests.get(url, headers={'Content-Type': 'application/json'},params=kwargs)
-    except:
-        # If any error occurs
-        print("Network exception occurred") 
+    response = requests.get(url, headers={'Content-Type': 'application/json'},params=params)
+    # except:
+    #     # If any error occurs
+    #     print("Network exception occurred") 
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
@@ -51,9 +51,9 @@ def get_dealers_from_cf(url, **kwargs):
         return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
-def get_dealer_by_id_from_cf(url, **kwargs):
+def get_dealer_by_id_from_cf(url, **params):
     results = []
-    json_result = get_request(url, **kwargs)
+    json_result = get_request(url, **params)
     if json_result:
         # Get the row list in JSON as review
         reviews = json_result["docs"]
