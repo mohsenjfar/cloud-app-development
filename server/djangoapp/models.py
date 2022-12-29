@@ -77,7 +77,7 @@ class DealerView:
         self.id = id
         self.name = name
         self.purchase = purchase
-        self.purchasedate = purchasedate
+        self.purchase_date = purchase_date
         self.review = review
 
     def __str__(self):

@@ -63,7 +63,7 @@ def get_dealer_by_id_from_cf(url, **params):
             review_obj = DealerView(
                 car_make = review['car_make'], car_model = review['car_model'], car_year = review['car_year'],
                 dealership = review['dealership'], id = review['id'], name = review['name'], purchase = review['purchase'], 
-                purchasedate = review['purchasedate'], review = review['review']
+                purchase_date = review['purchase_date'], review = review['review']
             )
             results.append(review_obj)
         print(results)
