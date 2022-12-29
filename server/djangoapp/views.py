@@ -81,11 +81,11 @@ def get_dealerships(request):
         return HttpResponse(dealer_names)
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
-def get_dealer_details(request, dealer_id):    
+def get_dealer_details(request, dealerId):    
     if request.method == "GET":        
         url = "south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-review.json"
         # Get reviews from the URL        
-        reviews = get_dealer_by_id_from_cf(url, dealerId = dealer_id)        
+        reviews = get_dealer_by_id_from_cf(url, dealerId = dealerId)        
         # Concat all reviews    
         dealer_reviews = '\n'.join([review.review for review in reviews])        
         # Return a list of reviews
