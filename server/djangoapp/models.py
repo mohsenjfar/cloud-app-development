@@ -66,9 +66,9 @@ class CarDealer:
 
 # <HINT> Create a plain Python class `DealerReview` to hold review data
 
-class DealerView:
+class DealerReview:
 
-    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchase_date, review):
+    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchase_date, review, sentiment):
 
         self.car_make = car_make
         self.car_model = car_model
@@ -79,6 +79,7 @@ class DealerView:
         self.purchase = purchase
         self.purchase_date = purchase_date
         self.review = review
+        self.sentiment = sentiment
 
     def __str__(self):
         return "Dealer name: " + self.name
