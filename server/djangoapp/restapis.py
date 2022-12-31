@@ -1,14 +1,14 @@
 import requests
 import json
-from .models import CarDealer, DealerView
+from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
-def get_request(url, api_key, **params):
+def get_request(url, **params):
     headers={'Content-Type': 'application/json'}
-    request.get(url, params=params, headers = headers)
+    requests.get(url, params=params, headers = headers)
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
@@ -49,8 +49,8 @@ def get_dealer_reviews_from_cf(url, **params):
         reviews = json_result["docs"]
         # For each review object
         for review in reviews:
-            # Create a DealerView object with values in `doc` object
-            review_obj = DealerView(
+            # Create a DealerReview object with values in `doc` object
+            review_obj = DealerReview(
                 car_make = review['car_make'], car_model = review['car_model'], car_year = review['car_year'],
                 dealership = review['dealership'], id = review['id'], name = review['name'], purchase = review['purchase'], 
                 purchase_date = review['purchase_date'], review = review['review']
