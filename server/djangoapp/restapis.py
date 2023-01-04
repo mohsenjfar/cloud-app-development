@@ -8,7 +8,7 @@ from ibm_watson.natural_language_understanding_v1 import Features, SentimentOpti
 
 def get_request(url, **params):
     headers={'Content-Type': 'application/json'}
-    requests.get(url, params=params, headers = headers)
+    response = requests.get(url, params=params, headers = headers)
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)

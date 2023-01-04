@@ -85,13 +85,14 @@ def get_dealer_details(request, dealer_id):
         # Get reviews from the URL        
         reviews = get_dealer_reviews_from_cf(url, **{'dealerId':dealer_id})        
         # Concat all reviews
-        dealer_reviews = '\n'.join([f'{review.review},sentiment:{review.sentiment}' for review in reviews])        
-        # Return a list of reviews
-        return HttpResponse(dealer_reviews)
-    # Submit a review
-    elif request.method == "POST":
+        context = dict()
+        context['review_list'] = reviews
+        return render(request, 'djangoapp/dealer_details.html', context)
+
+def add_dealer(request):
+    if request.method == "POST":
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/post-review-sequence"
-        if user.authenticate:
+        if user.is_authenticated:
             review = dict()
             payload = dict()
             review["time"] = datetime.utcnow().isoformat()
