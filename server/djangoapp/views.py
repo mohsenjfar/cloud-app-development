@@ -75,7 +75,7 @@ def get_dealerships(request):
         url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealership-sequence.json"
         dealerships = get_dealers_from_cf(url)
         context = dict()
-        context['dealership_list'] = context
+        context['dealership_list'] = dealerships
         return render(request, 'djangoapp/index.html', context)
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
