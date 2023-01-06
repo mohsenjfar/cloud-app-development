@@ -5,6 +5,7 @@ from requests.auth import HTTPBasicAuth
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
+from ibmcloudant.cloudant_v1 import CloudantV1
 
 def get_request(url, **params):
     headers={'Content-Type': 'application/json'}
@@ -14,13 +15,14 @@ def get_request(url, **params):
     json_data = json.loads(response.text)
     return json_data
 
-def post_request(url, payload, **kwargs):    
-    response = requests.post(url, params=kwargs, json=payload)
+def post_request(url, payload):    
+    response = requests.post(url, json=payload)
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
+    print(json_data)
     return json_data
-
+# the worst purchase ever made
 def get_dealers_from_cf(url, **kwargs):
     results = []
     # Call get_request with a URL parameter
@@ -76,8 +78,7 @@ def get_dealer_reviews_from_cf(url, **params):
 
 def analyze_review_sentiments(text):
     api_key = 'S-vguDraKch-lQFBkzzVxO3hZd-sUHEwd8LPdlk59S_o'
-    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com \
-    /instances/ca69e882-e6c8-40df-be35-c26f9d4cf63c"
+    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/ca69e882-e6c8-40df-be35-c26f9d4cf63c"
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2022-04-07',
@@ -87,5 +88,10 @@ def analyze_review_sentiments(text):
     response = natural_language_understanding.analyze(
         text = text,
         features=Features(sentiment = SentimentOptions(document=True))
-        ).get_result()
+    ).get_result()
     return response['sentiment']['document']['label']
+
+def get_dealer_name(dealer_id):
+    url = 'https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealer-name.json'
+    json_result = get_request(url, dealerId=dealer_id)
+    return json_result.docs.full_name

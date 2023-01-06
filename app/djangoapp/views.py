@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import CarModel
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request, get_dealer_name
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -76,8 +76,7 @@ def logout_request(request):
 
 def get_dealerships(request):    
     if request.method == "GET":        
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/ \
-        e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealership-sequence.json"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealership-sequence.json"
         dealerships = get_dealers_from_cf(url)
         context = dict()
         context['dealership_list'] = dealerships
@@ -86,14 +85,13 @@ def get_dealerships(request):
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):    
     if request.method == "GET":        
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/ \
-        e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-review.json"
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-review.json"
         # Get reviews from the URL        
-        reviews = get_dealer_reviews_from_cf(url, **{'dealerId':dealer_id})        
-        # Concat all reviews
+        reviews = get_dealer_reviews_from_cf(url, **{'dealerId':dealer_id})
         context = dict()
         context['review_list'] = reviews
         context['dealer_id'] = dealer_id
+        context['dealer_name'] = get_dealer_name(dealer_id)
         print(request)
         return render(request, 'djangoapp/dealer_details.html', context)
 
@@ -102,19 +100,24 @@ def add_review(request,dealer_id):
     if request.method == 'GET':
         cars = CarModel.objects.filter(dealer_id = dealer_id)
         context['cars'] = cars.values()
+        context['dealer_id'] = dealer_id
+        context['dealer_name'] = get_dealer_name(dealer_id)
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == "POST":
-        url = "https://us-south.functions.appdomain.cloud/api/v1/web/ \
-        e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/post-review-sequence"
-        review = dict()
+        url = "https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/post-review-sequence"
+        car = CarModel.objects.get(pk = int(request.POST['car']))
         payload = dict()
-        review["time"] = datetime.utcnow().isoformat()
-        review["dealership"] = dealer_id
-        review["review"] = request.POST['content']
-        review["name"] = request.user.username
-        review["purchase"] = request.POST['purchasecheck']
-        review["purchase_date"] = request.POST['purchasedate']
-        review["id"] = request.POST['car']
-        payload['review'] = review
-        post_request(url, payload, dealerId=dealer_id)
-        return redirect('get_dealer_details' , dealer_id = dealer_id)
+        payload['review'] = {
+            "id" : int(request.POST['car']),
+            "time" : datetime.utcnow().isoformat(),
+            "name" : request.user.username,
+            "dealership" : int(dealer_id),
+            "purchase" : request.POST['purchasecheck'] == 'on',
+            "purchase_date" : request.POST['purchasedate'],
+            "car_make" : car.make.name,
+            "car_model" : car.name,
+            "car_year" : car.year.strftime("%Y"),
+            "review" : request.POST['content'],
+        }
+        post_request(url, payload)
+        return redirect('djangoapp:dealer_details' , dealer_id = dealer_id)
