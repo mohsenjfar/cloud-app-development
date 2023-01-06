@@ -33,9 +33,17 @@ def get_dealers_from_cf(url, **kwargs):
             # Get its content in `doc` object
             dealer_doc = dealer["doc"]
             # Create a CarDealer object with values in `doc` object
-            dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"], full_name=dealer_doc["full_name"],
-                                   id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], 
-                                   short_name=dealer_doc["short_name"], st=dealer_doc["st"], zip=dealer_doc["zip"])
+            dealer_obj = CarDealer(
+                address=dealer_doc["address"], 
+                city=dealer_doc["city"], 
+                full_name=dealer_doc["full_name"],
+                id=dealer_doc["id"], 
+                lat=dealer_doc["lat"], 
+                long=dealer_doc["long"], 
+                short_name=dealer_doc["short_name"], 
+                st=dealer_doc["st"], 
+                zip=dealer_doc["zip"],
+            )
             results.append(dealer_obj)
         print(results)
         return results
@@ -51,9 +59,15 @@ def get_dealer_reviews_from_cf(url, **params):
         for review in reviews:
             # Create a DealerReview object with values in `doc` object
             review_obj = DealerReview(
-                car_make = review['car_make'], car_model = review['car_model'], car_year = review['car_year'],
-                dealership = review['dealership'], id = review['id'], name = review['name'], purchase = review['purchase'], 
-                purchase_date = review['purchase_date'], review = review['review']
+                car_make = review['car_make'],
+                car_model = review['car_model'],
+                car_year = review['car_year'],
+                dealership = review['dealership'],
+                id = review['id'],
+                name = review['name'],
+                purchase = review['purchase'],
+                purchase_date = review['purchase_date'],
+                review = review['review']
             )
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
             results.append(review_obj)
@@ -62,7 +76,8 @@ def get_dealer_reviews_from_cf(url, **params):
 
 def analyze_review_sentiments(text):
     api_key = 'S-vguDraKch-lQFBkzzVxO3hZd-sUHEwd8LPdlk59S_o'
-    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/ca69e882-e6c8-40df-be35-c26f9d4cf63c"
+    url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com \
+    /instances/ca69e882-e6c8-40df-be35-c26f9d4cf63c"
     authenticator = IAMAuthenticator(api_key)
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2022-04-07',

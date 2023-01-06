@@ -11,6 +11,25 @@
 
 </head>
     <body>
-    <!--Add review form here -->
+        <div class="form-group">
+            <label for="conten">Enter the review content</label>
+            <textarea class="form-control" name="content" id="content" rows="2" required></textarea>
+            <label for="purchasecheck">Has purchased the car from {{dealer.name}}?</label>
+            <input type="checkbox" class="form-check-input" name="purchasecheck" id="purchasecheck">
+            <label for="car">Select your car (model-make-year):</label>
+            <select name="car" id="car" class="form-select" required>
+                {% for car in cars %}
+                    <option value={{car.id}}>{{car.name}}-{{car.make.name}}-{{car.year|date:"Y"}}</option>
+                {% endfor %}
+            </select>
+            <label for="purchasedate">Select Your Purchase Date:</label>
+            <input type="text" class="date-own form-control" name="purchasedate" id="purchasedate">
+            <button class="btn btn-primary" type="submit">Submit</button> 
+        </div>
     </body>
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+            format: 'mm/dd/yyyy'
+        })
+    </script>
 </html>

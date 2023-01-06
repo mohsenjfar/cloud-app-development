@@ -68,7 +68,7 @@ class CarDealer:
 
 class DealerReview:
 
-    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchase_date, review, sentiment):
+    def __init__(self, car_make, car_model, car_year, dealership, id, name, purchase, purchase_date, review, sentiment=None):
 
         self.car_make = car_make
         self.car_model = car_model
