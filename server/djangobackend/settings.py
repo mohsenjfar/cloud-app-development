@@ -27,7 +27,7 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost", '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", '127.0.0.1', '185.216.26.133']
 
 
 # Application definition
