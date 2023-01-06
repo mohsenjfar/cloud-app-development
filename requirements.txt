@@ -11,6 +11,7 @@ Django==3.1.3
 frozenlist==1.3.3
 gunicorn==20.1.0
 ibm-cloud-sdk-core==3.10.0
+ibm-watson==6.1.0
 ibmcloudant==0.0.34
 idna==3.4
 immutables==0.19
