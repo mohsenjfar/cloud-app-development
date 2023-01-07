@@ -112,7 +112,7 @@ def add_review(request,dealer_id):
             "time" : datetime.utcnow().isoformat(),
             "name" : request.user.username,
             "dealership" : int(dealer_id),
-            "purchase" : request.POST['purchasecheck'] == 'on',
+            "purchase" : True if 'purchasecheck' in request.POST else False,
             "purchase_date" : request.POST['purchasedate'],
             "car_make" : car.make.name,
             "car_model" : car.name,
