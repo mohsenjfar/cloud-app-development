@@ -97,9 +97,14 @@ def get_dealer_details(request, dealer_id):
 
 def add_review(request,dealer_id):
     if request.method == 'GET':
-        context = {}
-        cars = CarModel.objects.filter(dealer_id = dealer_id)
-        context['cars'] = cars.values()
+        context = dict()
+        context['cars'] = [
+            {
+                'make':car.make.name,
+                'model':car.name,
+                'year':car.year
+            } for car in CarModel.objects.filter(dealer_id = dealer_id)
+        ]
         context['dealer_id'] = dealer_id
         context['dealer_name'] = get_dealer_name(dealer_id)
         return render(request, 'djangoapp/add_review.html', context)
