@@ -15,25 +15,30 @@
         <div class="container">
             {% csrf_token %}
             <h1>Add review</h1>
-            <hr>
-            <div class="form-group" >
-                <label for="content"><h4>Enter the review content</h4></label>
-                <textarea class="form-control" name="content" id="content" rows="2" required></textarea>
-                <hr>
-                <label for="purchasecheck"><h4>Has purchased the car from <b>{{dealer_name}}</b>?</h4></label>
-                <input type="checkbox" class="form-check-input" name="purchasecheck" id="purchasecheck">
-                <hr>
-                <label for="car"><h4>Select your car <b>(make-model-year)</b>:</h4></label>
-                <select name="car" id="car" class="form-select" required>
-                    {% for car in cars %}
-                        <option value={{car.id}}><h4>{{car.make.name}}-{{car.name}}-{{car.year|date:"Y"}}</h4></option>
-                    {% endfor %}
-                </select>
-                <hr>
-                <label for="purchasedate"><h4>Select Your <b>Purchase Date:</b></h4></label>
-                <input type="text" class="date-own form-control" name="purchasedate" id="purchasedate" required>
-                <hr>
-                <button class="btn btn-primary" type="submit">Submit</button> 
+            <div class="form-group border rounded p-2" >
+                <div class="mb-2">
+                    <label for="content"><h4>Enter the review content</h4></label>
+                    <textarea class="form-control" name="content" id="content" rows="2" required></textarea>
+                </div>
+                <div class="mb-2">
+                    <label for="purchasecheck"><h4>Has purchased the car from <b>{{dealer_name}}</b>?</h4></label>
+                    <input type="checkbox" class="form-control-inline" name="purchasecheck" id="purchasecheck">
+                </div>
+                <div class="mb-2">
+                    <label for="car"><h4>Select your car <b>(make-model-year)</b>:</h4></label>
+                    <select name="car" id="car" class="form-select" required>
+                        {% for car in cars %}
+                            <option value={{car.id}}><h4>{{car.make.name}}-{{car.name}}-{{car.year|date:"Y"}}</h4></option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label for="purchasedate"><h4>Select Your <b>Purchase Date:</b></h4></label>
+                    <input type="text" class="date-own form-control-inline" name="purchasedate" id="purchasedate" required>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
             </div>
         </div>
     </form>

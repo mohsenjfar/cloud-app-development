@@ -94,4 +94,4 @@ def analyze_review_sentiments(text):
 def get_dealer_name(dealer_id):
     url = 'https://us-south.functions.appdomain.cloud/api/v1/web/e7d8f3db-0cc6-4f5c-80ef-d9860b3f8248/dealership-package/get-dealer-name.json'
     json_result = get_request(url, dealerId=dealer_id)
-    return json_result.docs.full_name
+    return json_result['docs'][0]['full_name']
