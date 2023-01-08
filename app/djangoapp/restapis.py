@@ -20,7 +20,6 @@ def post_request(url, payload):
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
-    print(json_data)
     return json_data
 # the worst purchase ever made
 def get_dealers_from_cf(url, **kwargs):
@@ -47,7 +46,6 @@ def get_dealers_from_cf(url, **kwargs):
                 zip=dealer_doc["zip"],
             )
             results.append(dealer_obj)
-        print(results)
         return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
@@ -73,7 +71,6 @@ def get_dealer_reviews_from_cf(url, **params):
             )
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
             results.append(review_obj)
-        print(results)
         return results
 
 def analyze_review_sentiments(text):
